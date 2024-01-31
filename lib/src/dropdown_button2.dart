@@ -326,14 +326,12 @@ class _DropdownMenuState<T> extends State<_DropdownMenu<T>> {
 
   ScrollbarThemeData? get _scrollbarTheme => dropdownStyle.scrollbarTheme;
 
-  bool? get _iOSThumbVisibility => _scrollbarTheme?.thumbVisibility?.resolve(_states);
 
   Widget get _materialScrollBar => Theme(
         data: Theme.of(context).copyWith(
           scrollbarTheme: dropdownStyle.scrollbarTheme,
         ),
         child: Scrollbar(
-          thumbVisibility: true,
           child: ListView(
             // Ensure this always inherits the PrimaryScrollController
             primary: true,
@@ -349,7 +347,6 @@ class _DropdownMenuState<T> extends State<_DropdownMenu<T>> {
           scrollbarTheme: dropdownStyle.scrollbarTheme,
         ),
         child: Scrollbar(
-          thumbVisibility: _iOSThumbVisibility ?? true,
           thickness: _scrollbarTheme?.thickness?.resolve(_states),
           radius: _scrollbarTheme?.radius,
           child: ListView(
@@ -1252,7 +1249,7 @@ class DropdownButton2State<T> extends State<DropdownButton2<T>> with WidgetsBind
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addObserver(this);
+    WidgetsBinding.instance?.addObserver(this);
     _updateSelectedIndex();
     if (widget.focusNode == null) {
       _internalNode ??= _createFocusNode();
@@ -1269,7 +1266,7 @@ class DropdownButton2State<T> extends State<DropdownButton2<T>> with WidgetsBind
 
   @override
   void dispose() {
-    WidgetsBinding.instance.removeObserver(this);
+    WidgetsBinding.instance?.removeObserver(this);
     _removeDropdownRoute();
     _internalNode?.dispose();
     super.dispose();
@@ -1319,7 +1316,7 @@ class DropdownButton2State<T> extends State<DropdownButton2<T>> with WidgetsBind
     _rect.value = newRect;
   }
 
-  TextStyle? get _textStyle => widget.style ?? Theme.of(context).textTheme.titleMedium;
+  TextStyle? get _textStyle => widget.style ?? Theme.of(context).textTheme.subtitle1;
 
   Rect _getRect() {
     final TextDirection? textDirection = Directionality.maybeOf(context);
@@ -1411,7 +1408,7 @@ class DropdownButton2State<T> extends State<DropdownButton2<T>> with WidgetsBind
   // would be clipped.
   double get _denseButtonHeight {
     final double textScaleFactor = MediaQuery.textScaleFactorOf(context);
-    final double fontSize = _textStyle!.fontSize ?? Theme.of(context).textTheme.titleMedium!.fontSize!;
+    final double fontSize = _textStyle!.fontSize ?? Theme.of(context).textTheme.subtitle1!.fontSize!;
     final double scaledFontSize = textScaleFactor * fontSize;
     return math.max(scaledFontSize, math.max(_iconStyle.iconSize, _kDenseButtonHeight));
   }
@@ -1453,7 +1450,7 @@ class DropdownButton2State<T> extends State<DropdownButton2<T>> with WidgetsBind
       // orientation.
       // TODO(Ahmed): use View.of(context) and update the comment [flutter>=v3.10.0].
       // ignore: deprecated_member_use
-      final Size size = WidgetsBinding.instance.window.physicalSize;
+      final Size size = WidgetsBinding.instance!.window.physicalSize;
       result = size.width > size.height ? Orientation.landscape : Orientation.portrait;
     }
     return result;
